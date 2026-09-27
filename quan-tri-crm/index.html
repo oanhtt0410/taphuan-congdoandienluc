@@ -42,6 +42,10 @@
   .kpi .s { color: var(--muted); font-size: 12px; margin-top: 4px; }
   .kpi.hl { background: linear-gradient(135deg, #fff8e1, #fff); border-color: rgba(217, 154, 18, .35); }
   .kpi.hl .v { color: var(--gold-deep); }
+  .kpi.main { background: linear-gradient(135deg, #0a2a7a, #1a4fd0); border-color: transparent; }
+  .kpi.main .lb { color: #ffe07a; }
+  .kpi.main .v { color: #fff; font-size: 34px; }
+  .kpi.main .s { color: #c7d5f7; }
   .row2 { grid-template-columns: 1.6fr 1fr; margin-top: 16px; }
   .row3 { grid-template-columns: 1.3fr 1fr 1fr; margin-top: 16px; }
   h2 { font-size: 15.5px; margin: 0 0 14px; font-weight: 800; display: flex; align-items: center; justify-content: space-between; gap: 10px; }
@@ -170,18 +174,18 @@
 
   <section class="grid row2">
     <div class="card">
-      <h2>Truy cập &amp; đăng ký theo ngày <span class="legend"><span><i style="background:#c9d7f7"></i>Khách truy cập</span><span><i style="background:#d99a12"></i>Đăng ký</span></span></h2>
+      <h2>Truy cập &amp; đăng ký theo ngày <span class="legend"><span><i style="background:#c9d7f7"></i>Người truy cập (thiết bị)</span><span><i style="background:#d99a12"></i>Đăng ký</span></span></h2>
       <div id="chart"></div>
     </div>
     <div class="card funnel">
-      <h2>Phễu chuyển đổi <small>tính theo khách duy nhất</small></h2>
+      <h2>Phễu chuyển đổi <small>tính theo thiết bị</small></h2>
       <div id="funnel"></div>
     </div>
   </section>
 
   <section class="grid row3">
     <div class="card">
-      <h2>Nguồn truy cập (UTM) <small>khách · lead · tỷ lệ</small></h2>
+      <h2>Nguồn truy cập (UTM) <small>thiết bị · lead · tỷ lệ</small></h2>
       <div class="scroll" id="sources"></div>
     </div>
     <div class="card">
@@ -330,11 +334,11 @@
     $("sheet-link").href = d.sheetUrl;
     $("updated").textContent = "Cập nhật lúc " + dt(d.generatedAt) + " · Tổng số đăng ký từ trước đến nay: " + fmt(k.totalLeadsAll);
     var cards = [
-      ["Lượt truy cập", fmt(k.pageviews), fmt(k.sessions) + " phiên truy cập"],
-      ["Khách truy cập", fmt(k.visitors), "khách duy nhất"],
+      ["Người truy cập", fmt(k.visitors), "tính theo thiết bị", "main"],
       ["Đăng ký mới (lead)", fmt(k.leads), "đã lọc trùng", "hl"],
-      ["Tỷ lệ chuyển đổi", pct(k.leads, k.visitors), "đăng ký / khách truy cập"],
-      ["CTR nút Đăng ký", pct(k.ctaVisitors, k.visitors), fmt(k.ctaVisitors) + " khách đã bấm"],
+      ["Tỷ lệ chuyển đổi", pct(k.leads, k.visitors), "đăng ký / thiết bị truy cập"],
+      ["CTR nút Đăng ký", pct(k.ctaVisitors, k.visitors), fmt(k.ctaVisitors) + " thiết bị đã bấm"],
+      ["Phiên truy cập", fmt(k.sessions), fmt(k.pageviews) + " lượt xem trang"],
       ["Đăng ký trùng đã lọc", fmt(k.dups), "không tính vào lead"]
     ];
     $("kpis").innerHTML = cards.map(function (c) {
@@ -351,7 +355,7 @@
     var dv = { desktop: "Máy tính", mobile: "Điện thoại", tablet: "Máy tính bảng" };
     var totalV = d.devices.reduce(function (a, x) { return a + x.visitors; }, 0) || 1;
     $("devices").innerHTML = d.devices.length ? d.devices.map(function (x) {
-      return '<div class="funnel"><div class="st"><div class="st-h"><span>' + esc(dv[x.key] || x.key) + "</span><span>" + fmt(x.visitors) + " khách · " + fmt(x.leads) + ' lead</span></div><div class="bar"><b style="width:' + x.visitors / totalV * 100 + '%"></b></div></div></div>';
+      return '<div class="funnel"><div class="st"><div class="st-h"><span>' + esc(dv[x.key] || x.key) + "</span><span>" + fmt(x.visitors) + " thiết bị · " + fmt(x.leads) + ' lead</span></div><div class="bar"><b style="width:' + x.visitors / totalV * 100 + '%"></b></div></div></div>';
     }).join("") : '<div class="empty">Chưa có dữ liệu.</div>';
     var totalC = d.ctaPlaces.reduce(function (a, x) { return a + x.n; }, 0) || 1;
     $("cta").innerHTML = d.ctaPlaces.length ? d.ctaPlaces.map(function (x) {
@@ -375,7 +379,7 @@
 
   function srcTable(list, title) {
     if (!list.length) return '<div class="empty">Chưa có dữ liệu truy cập.</div>';
-    return '<table><thead><tr><th>' + title + '</th><th class="num">Khách</th><th class="num">Lead</th><th class="num">Tỷ lệ</th></tr></thead><tbody>' +
+    return '<table><thead><tr><th>' + title + '</th><th class="num">Thiết bị</th><th class="num">Lead</th><th class="num">Tỷ lệ</th></tr></thead><tbody>' +
       list.map(function (s) {
         return "<tr><td>" + esc(s.key) + '</td><td class="num">' + fmt(s.visitors) + '</td><td class="num"><b>' + fmt(s.leads) + '</b></td><td class="num">' + (s.visitors ? pct(s.leads, s.visitors) : "—") + "</td></tr>";
       }).join("") + "</tbody></table>";
@@ -396,7 +400,7 @@
     var pts = [];
     days.forEach(function (d, i) {
       var x = P.l + i * bw, h = H - P.b - y(d.visitors);
-      s += '<rect x="' + (x + bw * .18) + '" y="' + y(d.visitors) + '" width="' + bw * .64 + '" height="' + Math.max(h, 0) + '" rx="3" fill="#c9d7f7"><title>' + d.day + ": " + d.visitors + " khách, " + d.pv + " lượt xem, " + d.leads + " đăng ký</title></rect>";
+      s += '<rect x="' + (x + bw * .18) + '" y="' + y(d.visitors) + '" width="' + bw * .64 + '" height="' + Math.max(h, 0) + '" rx="3" fill="#c9d7f7"><title>' + d.day + ": " + d.visitors + " thiết bị, " + d.pv + " lượt xem, " + d.leads + " đăng ký</title></rect>";
       pts.push((x + bw / 2) + "," + y(d.leads));
       var every = Math.ceil(n / 10);
       if (i % every === 0 || i === n - 1) s += '<text x="' + (x + bw / 2) + '" y="' + (H - 10) + '" font-size="10.5" fill="#8a97b3" text-anchor="middle">' + d.day.slice(8, 10) + "/" + d.day.slice(5, 7) + "</text>";
