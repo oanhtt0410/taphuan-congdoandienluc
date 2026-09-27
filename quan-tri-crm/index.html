@@ -263,6 +263,8 @@
   }
 
   function enter() {
+    $("login-err").textContent = "";
+    $("login-err").classList.remove("on");
     document.body.classList.remove("locked");
     load();
   }
