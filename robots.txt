@@ -1,0 +1,4 @@
+User-agent: *
+Disallow: /quan-tri-crm/
+Disallow: /xac-nhan-dang-ky/
+Sitemap: https://taphuan.congdoandienluc.com/sitemap.xml

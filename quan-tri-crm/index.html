@@ -1,0 +1,462 @@
+<!DOCTYPE html>
+<html lang="vi">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<meta name="robots" content="noindex, nofollow">
+<link rel="icon" href="/assets/logo-cddl.webp" type="image/webp">
+<title>CRM – Tập huấn AI · Công đoàn Điện lực Việt Nam</title>
+<link href="https://fonts.googleapis.com/css2?family=Be+Vietnam+Pro:wght@400;500;600;700;800&display=swap" rel="stylesheet">
+<style>
+  :root {
+    --navy: #0a2a7a; --navy-deep: #061a4d; --blue: #1f5fd6; --gold: #f5c542; --gold-deep: #d99a12;
+    --ink: #0b1f4d; --muted: #5b6b8c; --line: #e3e9f5; --bg: #f3f6fc; --card: #fff;
+    --green: #16a34a; --red: #dc2626; --shadow: 0 10px 30px -18px rgba(10, 42, 122, .35);
+  }
+  * { box-sizing: border-box; }
+  body { margin: 0; font-family: "Be Vietnam Pro", system-ui, -apple-system, "Segoe UI", sans-serif; background: var(--bg); color: var(--ink); font-size: 14px; }
+  a { color: var(--blue); }
+  button, select, input { font: inherit; }
+  .top { background: linear-gradient(120deg, var(--navy-deep), var(--navy) 60%, #123a9c); color: #fff; padding: 18px 0 70px; }
+  .wrap { max-width: 1320px; margin: 0 auto; padding: 0 22px; }
+  .top-row { display: flex; flex-wrap: wrap; align-items: center; justify-content: space-between; gap: 14px; }
+  .brand small { display: block; color: var(--gold); font-weight: 700; letter-spacing: 1.2px; font-size: 11px; text-transform: uppercase; }
+  .brand h1 { margin: 4px 0 0; font-size: 21px; font-weight: 800; line-height: 1.3; }
+  .tools { display: flex; flex-wrap: wrap; gap: 8px; align-items: center; }
+  .seg { display: inline-flex; background: rgba(255, 255, 255, .1); border: 1px solid rgba(255, 255, 255, .18); border-radius: 10px; padding: 3px; }
+  .seg button { border: 0; background: none; color: #dfe7ff; padding: 7px 12px; border-radius: 8px; cursor: pointer; font-weight: 600; font-size: 13px; }
+  .seg button.on { background: var(--gold); color: var(--ink); }
+  .tbtn { border: 1px solid rgba(255, 255, 255, .25); background: rgba(255, 255, 255, .08); color: #fff; padding: 8px 13px; border-radius: 10px; cursor: pointer; font-weight: 600; font-size: 13px; text-decoration: none; display: inline-flex; gap: 6px; align-items: center; }
+  .tbtn:hover { background: rgba(255, 255, 255, .16); }
+  .updated { color: #b9c7ec; font-size: 12px; margin-top: 10px; }
+  main { margin-top: -52px; padding-bottom: 50px; }
+  .grid { display: grid; gap: 16px; }
+  .kpis { grid-template-columns: repeat(6, 1fr); }
+  .card { background: var(--card); border-radius: 16px; box-shadow: var(--shadow); border: 1px solid rgba(10, 42, 122, .05); padding: 18px 20px; min-width: 0; }
+  .kpi .lb { color: var(--muted); font-size: 12.5px; font-weight: 600; }
+  .kpi .v { font-size: 28px; font-weight: 800; margin-top: 6px; letter-spacing: -.5px; }
+  .kpi .s { color: var(--muted); font-size: 12px; margin-top: 4px; }
+  .kpi.hl { background: linear-gradient(135deg, #fff8e1, #fff); border-color: rgba(217, 154, 18, .35); }
+  .kpi.hl .v { color: var(--gold-deep); }
+  .row2 { grid-template-columns: 1.6fr 1fr; margin-top: 16px; }
+  .row3 { grid-template-columns: 1.3fr 1fr 1fr; margin-top: 16px; }
+  h2 { font-size: 15.5px; margin: 0 0 14px; font-weight: 800; display: flex; align-items: center; justify-content: space-between; gap: 10px; }
+  h2 small { color: var(--muted); font-weight: 500; font-size: 12px; }
+  .legend { display: flex; gap: 14px; font-size: 12px; color: var(--muted); font-weight: 500; }
+  .legend i { display: inline-block; width: 10px; height: 10px; border-radius: 3px; margin-right: 5px; vertical-align: -1px; }
+  svg text { font-family: inherit; }
+  .funnel .st { margin-bottom: 12px; }
+  .funnel .st-h { display: flex; justify-content: space-between; font-size: 13px; font-weight: 600; margin-bottom: 5px; }
+  .funnel .st-h span:last-child { color: var(--muted); font-weight: 500; }
+  .bar { height: 10px; background: #edf1fa; border-radius: 99px; overflow: hidden; }
+  .bar b { display: block; height: 100%; border-radius: 99px; background: linear-gradient(90deg, var(--blue), var(--navy)); }
+  .bar.gold b { background: linear-gradient(90deg, var(--gold), var(--gold-deep)); }
+  table { width: 100%; border-collapse: collapse; }
+  th { text-align: left; font-size: 11.5px; text-transform: uppercase; letter-spacing: .4px; color: var(--muted); font-weight: 700; padding: 8px 10px; border-bottom: 1px solid var(--line); white-space: nowrap; }
+  td { padding: 9px 10px; border-bottom: 1px solid var(--line); vertical-align: middle; }
+  tr:last-child td { border-bottom: 0; }
+  td.num, th.num { text-align: right; white-space: nowrap; }
+  .scroll { overflow-x: auto; }
+  .pill { display: inline-block; padding: 2px 9px; border-radius: 99px; font-size: 12px; font-weight: 600; background: #eef3ff; color: var(--navy); white-space: nowrap; }
+  .pill.g { background: #e7f7ee; color: var(--green); }
+  .pill.r { background: #fdecec; color: var(--red); }
+  .pill.y { background: #fff4d6; color: #9a6a00; }
+  .muted { color: var(--muted); }
+  .empty { color: var(--muted); text-align: center; padding: 26px 10px; font-size: 13px; }
+  .leads { margin-top: 16px; }
+  .filters { display: flex; flex-wrap: wrap; gap: 8px; margin-bottom: 12px; }
+  .filters input, .filters select { border: 1px solid var(--line); border-radius: 10px; padding: 8px 11px; background: #fff; min-width: 0; }
+  .filters input { flex: 1 1 240px; }
+  .btn { border: 0; border-radius: 10px; padding: 8px 14px; font-weight: 700; cursor: pointer; background: var(--navy); color: #fff; font-size: 13px; }
+  .btn.ghost { background: #eef3ff; color: var(--navy); }
+  .btn.sm { padding: 5px 10px; font-size: 12px; white-space: nowrap; }
+  td select { border: 1px solid var(--line); border-radius: 8px; padding: 4px 6px; background: #fff; font-size: 12.5px; }
+  .name b { display: block; }
+  .name span { color: var(--muted); font-size: 12px; }
+  .tabs { display: flex; gap: 6px; }
+  .tabs button { border: 0; background: #eef3ff; color: var(--navy); border-radius: 9px; padding: 6px 12px; font-weight: 700; cursor: pointer; font-size: 12.5px; }
+  .tabs button.on { background: var(--navy); color: #fff; }
+  .modal { position: fixed; inset: 0; background: rgba(6, 26, 77, .55); display: none; align-items: flex-start; justify-content: center; padding: 40px 16px; z-index: 50; overflow-y: auto; }
+  .modal.open { display: flex; }
+  .sheet { background: #fff; border-radius: 18px; width: 100%; max-width: 720px; padding: 22px 24px; box-shadow: 0 30px 80px -20px rgba(0, 0, 0, .5); }
+  .sheet-h { display: flex; justify-content: space-between; gap: 12px; align-items: flex-start; }
+  .sheet-h h3 { margin: 0; font-size: 19px; }
+  .x { border: 0; background: #eef3ff; width: 34px; height: 34px; border-radius: 10px; cursor: pointer; font-size: 18px; color: var(--navy); flex: none; }
+  .info { display: grid; grid-template-columns: repeat(2, 1fr); gap: 8px 18px; margin: 16px 0; font-size: 13px; }
+  .info div span { display: block; color: var(--muted); font-size: 11.5px; font-weight: 600; text-transform: uppercase; letter-spacing: .3px; }
+  .tl { position: relative; margin-top: 8px; }
+  .sess { margin: 16px 0 8px; font-size: 12.5px; font-weight: 700; color: var(--navy); background: #eef3ff; border-radius: 9px; padding: 7px 11px; }
+  .ev { display: flex; gap: 12px; padding: 7px 0 7px 4px; }
+  .ev .dot { width: 26px; height: 26px; border-radius: 50%; background: #eef3ff; color: var(--navy); display: grid; place-items: center; flex: none; font-size: 12px; font-weight: 800; }
+  .ev.lead .dot { background: var(--green); color: #fff; }
+  .ev.dup .dot { background: #fdecec; color: var(--red); }
+  .ev .tt { font-weight: 600; }
+  .ev .tm { color: var(--muted); font-size: 12px; }
+  .loading { position: fixed; top: 14px; right: 16px; background: var(--ink); color: #fff; padding: 8px 14px; border-radius: 10px; font-size: 13px; font-weight: 600; display: none; z-index: 60; }
+  .loading.on { display: block; }
+  .err { background: #fdecec; color: var(--red); border-radius: 12px; padding: 14px 16px; margin-bottom: 16px; font-weight: 600; display: none; }
+  .note { font-size: 12px; color: var(--muted); margin-top: 10px; }
+  @media (max-width: 1180px) { .kpis { grid-template-columns: repeat(3, 1fr); } .row3 { grid-template-columns: 1fr 1fr; } .row3 > :first-child { grid-column: 1 / -1; } }
+  @media (max-width: 860px) { .row2, .row3 { grid-template-columns: 1fr; } .brand h1 { font-size: 17px; } }
+  @media (max-width: 560px) { .kpis { grid-template-columns: repeat(2, 1fr); } .kpi .v { font-size: 23px; } .info { grid-template-columns: 1fr; } .wrap { padding: 0 14px; } }
+</style>
+</head>
+<body>
+<div class="loading" id="loading">Đang tải dữ liệu...</div>
+
+<header class="top">
+  <div class="wrap">
+    <div class="top-row">
+      <div class="brand">
+        <small>CRM · Trang quản trị</small>
+        <h1>Tập huấn AI trong công tác truyền thông số – Công đoàn Điện lực Việt Nam</h1>
+      </div>
+      <div class="tools">
+        <div class="seg" id="range">
+          <button data-r="today">Hôm nay</button>
+          <button data-r="7">7 ngày</button>
+          <button data-r="30" class="on">30 ngày</button>
+          <button data-r="all">Tất cả</button>
+        </div>
+        <button class="tbtn" id="reload">Làm mới</button>
+        <a class="tbtn" id="sheet-link" target="_blank" rel="noopener" href="#">Mở Google Sheet</a>
+      </div>
+    </div>
+    <div class="updated" id="updated"></div>
+  </div>
+</header>
+
+<main class="wrap">
+  <div class="err" id="err"></div>
+
+  <section class="grid kpis" id="kpis"></section>
+
+  <section class="grid row2">
+    <div class="card">
+      <h2>Truy cập &amp; đăng ký theo ngày <span class="legend"><span><i style="background:#c9d7f7"></i>Khách truy cập</span><span><i style="background:#d99a12"></i>Đăng ký</span></span></h2>
+      <div id="chart"></div>
+    </div>
+    <div class="card funnel">
+      <h2>Phễu chuyển đổi <small>tính theo khách duy nhất</small></h2>
+      <div id="funnel"></div>
+    </div>
+  </section>
+
+  <section class="grid row3">
+    <div class="card">
+      <h2>Nguồn truy cập (UTM) <small>khách · lead · tỷ lệ</small></h2>
+      <div class="scroll" id="sources"></div>
+    </div>
+    <div class="card">
+      <h2>Chiến dịch (utm_campaign)</h2>
+      <div class="scroll" id="campaigns"></div>
+    </div>
+    <div class="card">
+      <h2>Thiết bị</h2>
+      <div id="devices"></div>
+      <h2 style="margin-top:20px">Nút Đăng ký được bấm ở đâu</h2>
+      <div id="cta"></div>
+    </div>
+  </section>
+
+  <section class="card leads">
+    <h2>
+      <span class="tabs"><button data-tab="leads" class="on">Danh sách đăng ký</button><button data-tab="dups">Đăng ký trùng đã lọc</button><button data-tab="units">Theo đơn vị</button></span>
+      <button class="btn ghost sm" id="export">Tải CSV</button>
+    </h2>
+    <div id="tab-leads">
+      <div class="filters">
+        <input id="q" placeholder="Tìm tên, số điện thoại, email, đơn vị...">
+        <select id="f-source"><option value="">Tất cả nguồn</option></select>
+        <select id="f-status"><option value="">Tất cả trạng thái</option></select>
+      </div>
+      <div class="scroll" id="leads"></div>
+    </div>
+    <div id="tab-dups" hidden><div class="scroll" id="dups"></div></div>
+    <div id="tab-units" hidden><div class="scroll" id="units"></div></div>
+    <p class="note">Lọc trùng theo số điện thoại (0xxx và +84xxx coi là một), hoặc trùng cả email lẫn họ tên (email đơn vị dùng chung không bị tính trùng). Người đăng ký lại chỉ được cộng "Số lần đăng ký", không tạo lead mới và không gửi mail lần hai.</p>
+  </section>
+</main>
+
+<div class="modal" id="modal"><div class="sheet" id="sheet"></div></div>
+
+<script>
+(function () {
+  var API = "https://script.google.com/macros/s/AKfycbxPKc8eFlV-DBLdbW6fSZAGYYEi6YKobQjX5OpHShAw_T2zKZ_S5BGp9U_kUnHPmmRX/exec", KEY = "__KEY__";
+  var qs = new URLSearchParams(location.search);
+  if (API.indexOf("__") === 0) API = qs.get("api") || "";
+  if (KEY.indexOf("__") === 0) KEY = qs.get("key") || "";
+  var DEMO = qs.get("demo") === "1";
+  if (qs.get("key") && history.replaceState) {
+    qs.delete("key");
+    history.replaceState(null, "", location.pathname + (qs.toString() ? "?" + qs : "") + location.hash);
+  }
+  if (!KEY && !DEMO) {
+    try { KEY = localStorage.getItem("cddl_crm_key") || ""; } catch (e) {}
+    if (!KEY) KEY = (prompt("Nhập mã truy cập CRM:") || "").trim();
+  }
+  if (KEY && !DEMO) { try { localStorage.setItem("cddl_crm_key", KEY); } catch (e) {} }
+  var hasRun = !!(window.google && google.script && google.script.run);
+
+  var state = { range: "30", data: null, tab: "leads" };
+  var $ = function (id) { return document.getElementById(id); };
+  var esc = function (s) { return String(s == null ? "" : s).replace(/[&<>"']/g, function (c) { return { "&": "&amp;", "<": "&lt;", ">": "&gt;", '"': "&quot;", "'": "&#39;" }[c]; }); };
+  var fmt = function (n) { return Number(n || 0).toLocaleString("vi-VN"); };
+  var pct = function (a, b) { return b ? (a / b * 100).toFixed(a / b < .1 ? 1 : 0).replace(".", ",") + "%" : "—"; };
+  var pad = function (n) { return n < 10 ? "0" + n : n; };
+  var dt = function (ms) { if (!ms) return ""; var d = new Date(ms); return pad(d.getHours()) + ":" + pad(d.getMinutes()) + " " + pad(d.getDate()) + "/" + pad(d.getMonth() + 1) + "/" + d.getFullYear(); };
+  var EV = {
+    pageview: ["Truy cập trang đăng ký", "↘"], scroll_50: ["Cuộn xem 50% trang", "½"], scroll_90: ["Cuộn gần hết trang", "↓"],
+    cta_click: ["Bấm nút Đăng ký", "☝"], form_start: ["Bắt đầu điền form", "✎"], lead: ["Đăng ký thành công", "✓"],
+    lead_dup: ["Đăng ký lại (trùng)", "!"], thankyou_view: ["Xem trang cảm ơn", "♥"], zalo_click: ["Bấm tham gia nhóm Zalo", "Z"]
+  };
+
+  function call(params, done) {
+    if (DEMO) return setTimeout(function () { done(demo(params)); }, 150);
+    params.key = KEY;
+    if (hasRun) {
+      google.script.run.withSuccessHandler(done).withFailureHandler(function (e) { done({ ok: false, error: String(e && e.message || e) }); }).api(params);
+      return;
+    }
+    if (!API) return done({ ok: false, error: "Thiếu địa chỉ API" });
+    fetch(API + "?" + new URLSearchParams(params)).then(function (r) { return r.json(); }).then(done)
+      .catch(function (e) { done({ ok: false, error: "Không kết nối được máy chủ: " + e.message }); });
+  }
+
+  function load() {
+    $("loading").classList.add("on");
+    call({ api: "stats", range: state.range }, function (d) {
+      $("loading").classList.remove("on");
+      if (!d || !d.ok) {
+        if (d && /Khóa truy cập/.test(d.error || "")) { try { localStorage.removeItem("cddl_crm_key"); } catch (e) {} }
+        $("err").style.display = "block"; $("err").textContent = (d && d.error) || "Không tải được dữ liệu"; return;
+      }
+      $("err").style.display = "none";
+      state.data = d;
+      render();
+    });
+  }
+
+  function render() {
+    var d = state.data, k = d.kpi;
+    $("sheet-link").href = d.sheetUrl;
+    $("updated").textContent = "Cập nhật lúc " + dt(d.generatedAt) + " · Tổng số đăng ký từ trước đến nay: " + fmt(k.totalLeadsAll);
+    var cards = [
+      ["Lượt truy cập", fmt(k.pageviews), fmt(k.sessions) + " phiên truy cập"],
+      ["Khách truy cập", fmt(k.visitors), "khách duy nhất"],
+      ["Đăng ký mới (lead)", fmt(k.leads), "đã lọc trùng", "hl"],
+      ["Tỷ lệ chuyển đổi", pct(k.leads, k.visitors), "đăng ký / khách truy cập"],
+      ["CTR nút Đăng ký", pct(k.ctaVisitors, k.visitors), fmt(k.ctaVisitors) + " khách đã bấm"],
+      ["Đăng ký trùng đã lọc", fmt(k.dups), "không tính vào lead"]
+    ];
+    $("kpis").innerHTML = cards.map(function (c) {
+      return '<div class="card kpi ' + (c[3] || "") + '"><div class="lb">' + c[0] + '</div><div class="v">' + c[1] + '</div><div class="s">' + c[2] + "</div></div>";
+    }).join("");
+    chart(d.days);
+    var top = d.funnel[0].n || 1;
+    $("funnel").innerHTML = d.funnel.map(function (s, i) {
+      var prev = i ? d.funnel[i - 1].n : s.n;
+      return '<div class="st"><div class="st-h"><span>' + esc(s.step) + "</span><span>" + fmt(s.n) + (i ? " · " + pct(s.n, prev) : "") + '</span></div><div class="bar' + (i === d.funnel.length - 1 ? " gold" : "") + '"><b style="width:' + Math.max(s.n / top * 100, s.n ? 2 : 0) + '%"></b></div></div>';
+    }).join("");
+    $("sources").innerHTML = srcTable(d.sources, "Nguồn / kênh");
+    $("campaigns").innerHTML = d.campaigns.length ? srcTable(d.campaigns, "Chiến dịch") : '<div class="empty">Chưa có lượt truy cập gắn utm_campaign.</div>';
+    var dv = { desktop: "Máy tính", mobile: "Điện thoại", tablet: "Máy tính bảng" };
+    var totalV = d.devices.reduce(function (a, x) { return a + x.visitors; }, 0) || 1;
+    $("devices").innerHTML = d.devices.length ? d.devices.map(function (x) {
+      return '<div class="funnel"><div class="st"><div class="st-h"><span>' + esc(dv[x.key] || x.key) + "</span><span>" + fmt(x.visitors) + " khách · " + fmt(x.leads) + ' lead</span></div><div class="bar"><b style="width:' + x.visitors / totalV * 100 + '%"></b></div></div></div>';
+    }).join("") : '<div class="empty">Chưa có dữ liệu.</div>';
+    var totalC = d.ctaPlaces.reduce(function (a, x) { return a + x.n; }, 0) || 1;
+    $("cta").innerHTML = d.ctaPlaces.length ? d.ctaPlaces.map(function (x) {
+      return '<div class="funnel"><div class="st"><div class="st-h"><span>' + esc(x.key) + "</span><span>" + fmt(x.n) + ' lượt</span></div><div class="bar gold"><b style="width:' + x.n / totalC * 100 + '%"></b></div></div></div>';
+    }).join("") : '<div class="empty">Chưa có lượt bấm.</div>';
+
+    var fs = $("f-source"), cur = fs.value;
+    fs.innerHTML = '<option value="">Tất cả nguồn</option>' + d.sources.map(function (s) { return '<option>' + esc(s.key) + "</option>"; }).join("");
+    fs.value = cur;
+    var st = $("f-status"), curS = st.value;
+    st.innerHTML = '<option value="">Tất cả trạng thái</option>' + d.statuses.map(function (s) { return "<option>" + esc(s) + "</option>"; }).join("");
+    st.value = curS;
+    leadsTable();
+    $("dups").innerHTML = d.dups.length ? '<table><thead><tr><th>Thời gian</th><th>Họ tên</th><th>Số điện thoại</th><th>Đơn vị</th><th>Lý do</th><th>Nguồn</th><th class="num">Trùng dòng</th></tr></thead><tbody>' +
+      d.dups.map(function (x) {
+        return "<tr><td>" + dt(x.t) + "</td><td>" + esc(x.name) + "</td><td>" + esc(x.phone) + "</td><td>" + esc(x.unit) + '</td><td><span class="pill r">' + esc(x.reason) + "</span></td><td>" + esc(x.source) + '</td><td class="num">' + esc(x.row) + "</td></tr>";
+      }).join("") + "</tbody></table>" : '<div class="empty">Chưa có đăng ký trùng.</div>';
+    $("units").innerHTML = d.units.length ? '<table><thead><tr><th>#</th><th>Tên đơn vị</th><th class="num">Số cán bộ đăng ký</th></tr></thead><tbody>' +
+      d.units.map(function (x, i) { return "<tr><td>" + (i + 1) + "</td><td>" + esc(x.key) + '</td><td class="num"><b>' + fmt(x.n) + "</b></td></tr>"; }).join("") + "</tbody></table>" : '<div class="empty">Chưa có đăng ký.</div>';
+  }
+
+  function srcTable(list, title) {
+    if (!list.length) return '<div class="empty">Chưa có dữ liệu truy cập.</div>';
+    return '<table><thead><tr><th>' + title + '</th><th class="num">Khách</th><th class="num">Lead</th><th class="num">Tỷ lệ</th></tr></thead><tbody>' +
+      list.map(function (s) {
+        return "<tr><td>" + esc(s.key) + '</td><td class="num">' + fmt(s.visitors) + '</td><td class="num"><b>' + fmt(s.leads) + '</b></td><td class="num">' + (s.visitors ? pct(s.leads, s.visitors) : "—") + "</td></tr>";
+      }).join("") + "</tbody></table>";
+  }
+
+  function chart(days) {
+    if (!days.length) { $("chart").innerHTML = '<div class="empty">Chưa có dữ liệu trong khoảng thời gian này.</div>'; return; }
+    var W = 760, H = 250, P = { l: 38, r: 12, t: 12, b: 30 };
+    var maxV = Math.max.apply(null, days.map(function (d) { return Math.max(d.visitors, d.leads); }).concat([4]));
+    var step = Math.pow(10, Math.floor(Math.log10(maxV))); var top = Math.ceil(maxV / step) * step;
+    var n = days.length, bw = (W - P.l - P.r) / n;
+    var y = function (v) { return P.t + (H - P.t - P.b) * (1 - v / top); };
+    var s = '<svg viewBox="0 0 ' + W + " " + H + '" width="100%" role="img">';
+    for (var g = 0; g <= 4; g++) {
+      var gv = top / 4 * g, gy = y(gv);
+      s += '<line x1="' + P.l + '" x2="' + (W - P.r) + '" y1="' + gy + '" y2="' + gy + '" stroke="#e8edf7"/><text x="' + (P.l - 6) + '" y="' + (gy + 4) + '" font-size="10.5" fill="#8a97b3" text-anchor="end">' + fmt(Math.round(gv)) + "</text>";
+    }
+    var pts = [];
+    days.forEach(function (d, i) {
+      var x = P.l + i * bw, h = H - P.b - y(d.visitors);
+      s += '<rect x="' + (x + bw * .18) + '" y="' + y(d.visitors) + '" width="' + bw * .64 + '" height="' + Math.max(h, 0) + '" rx="3" fill="#c9d7f7"><title>' + d.day + ": " + d.visitors + " khách, " + d.pv + " lượt xem, " + d.leads + " đăng ký</title></rect>";
+      pts.push((x + bw / 2) + "," + y(d.leads));
+      var every = Math.ceil(n / 10);
+      if (i % every === 0 || i === n - 1) s += '<text x="' + (x + bw / 2) + '" y="' + (H - 10) + '" font-size="10.5" fill="#8a97b3" text-anchor="middle">' + d.day.slice(8, 10) + "/" + d.day.slice(5, 7) + "</text>";
+    });
+    s += '<polyline points="' + pts.join(" ") + '" fill="none" stroke="#d99a12" stroke-width="2.5" stroke-linejoin="round"/>';
+    days.forEach(function (d, i) { var p = pts[i].split(","); s += '<circle cx="' + p[0] + '" cy="' + p[1] + '" r="' + (d.leads ? 3.8 : 2.2) + '" fill="#d99a12"><title>' + d.day + ": " + d.leads + " đăng ký</title></circle>"; });
+    $("chart").innerHTML = s + "</svg>";
+  }
+
+  function filtered() {
+    var q = $("q").value.trim().toLowerCase(), fs = $("f-source").value, st = $("f-status").value;
+    return state.data.leads.filter(function (x) {
+      if (fs && x.source !== fs) return false;
+      if (st && x.status !== st) return false;
+      if (q && [x.name, x.phone, x.email, x.unit].join(" ").toLowerCase().indexOf(q) < 0) return false;
+      return true;
+    });
+  }
+
+  function leadsTable() {
+    var list = filtered(), d = state.data;
+    if (!list.length) { $("leads").innerHTML = '<div class="empty">' + (d.leads.length ? "Không có đăng ký khớp bộ lọc." : "Chưa có đăng ký trong khoảng thời gian này.") + "</div>"; return; }
+    var dv = { desktop: "Máy tính", mobile: "Điện thoại", tablet: "Máy tính bảng" };
+    $("leads").innerHTML = '<table><thead><tr><th>Thời gian</th><th>Họ tên / đơn vị</th><th>Liên hệ</th><th>Nguồn</th><th>Chiến dịch</th><th>Thiết bị</th><th class="num">Lượt ĐK</th><th>Trạng thái</th><th></th></tr></thead><tbody>' +
+      list.map(function (x) {
+        var opts = d.statuses.map(function (s) { return "<option" + (s === x.status ? " selected" : "") + ">" + esc(s) + "</option>"; }).join("");
+        return "<tr><td>" + dt(x.t) + '</td><td class="name"><b>' + esc(x.name) + "</b><span>" + esc(x.unit) + "</span></td><td>" + esc(x.phone) + (x.email ? '<br><span class="muted">' + esc(x.email) + "</span>" : "") +
+          '</td><td><span class="pill">' + esc(x.source) + "</span></td><td>" + esc(x.uc || "—") + "</td><td>" + esc(dv[x.dev] || x.dev || "—") +
+          '</td><td class="num">' + (x.count > 1 ? '<span class="pill y">' + x.count + "</span>" : 1) + '</td><td><select data-row="' + x.row + '">' + opts + '</select></td><td><button class="btn sm ghost" data-j="' + x.row + '">Hành trình</button></td></tr>';
+      }).join("") + "</tbody></table>";
+  }
+
+  function openJourney(row) {
+    var x = state.data.leads.filter(function (l) { return l.row === row; })[0];
+    if (!x) return;
+    $("modal").classList.add("open");
+    var head = '<div class="sheet-h"><div><div class="muted" style="font-weight:700;font-size:12px;letter-spacing:.5px">HÀNH TRÌNH KHÁCH HÀNG</div><h3>' + esc(x.name) + '</h3><div class="muted">' + esc(x.unit) + '</div></div><button class="x" data-close>×</button></div>' +
+      '<div class="info"><div><span>Số điện thoại</span>' + esc(x.phone) + "</div><div><span>Email</span>" + esc(x.email || "—") + "</div>" +
+      "<div><span>Nguồn lượt đăng ký</span>" + esc(x.source) + (x.uc ? " · " + esc(x.uc) : "") + "</div><div><span>Nguồn đầu tiên</span>" + esc(x.ft || "—") + "</div>" +
+      "<div><span>utm_content / utm_term</span>" + esc([x.ux, x.ut].filter(Boolean).join(" / ") || "—") + "</div><div><span>Số lượt truy cập trước khi đăng ký</span>" + esc(x.visits || "—") + "</div>" +
+      "<div><span>Referrer</span>" + esc(x.ref || "—") + "</div><div><span>Số lần đăng ký</span>" + esc(x.count) + (x.last && x.count > 1 ? " (gần nhất " + dt(x.last) + ")" : "") + "</div></div>";
+    $("sheet").innerHTML = head + '<div class="empty">Đang tải hành trình...</div>';
+    if (!x.vid) { $("sheet").innerHTML = head + '<div class="empty">' + (x.journey ? esc(x.journey) : "Lead này chưa có dữ liệu hành trình.") + "</div>"; return; }
+    call({ api: "journey", vid: x.vid }, function (r) {
+      if (!r || !r.ok) { $("sheet").innerHTML = head + '<div class="empty">Không tải được hành trình.</div>'; return; }
+      var html = "", lastSid = null;
+      r.events.forEach(function (e) {
+        if (e.sid !== lastSid) {
+          lastSid = e.sid;
+          html += '<div class="sess">Lượt truy cập lúc ' + dt(e.t) + " · Nguồn: " + esc(e.source) + (e.uc ? " · " + esc(e.uc) : "") + "</div>";
+        }
+        var m = EV[e.ev] || [e.ev, "•"];
+        var cls = e.ev === "lead" ? "lead" : e.ev === "lead_dup" ? "dup" : "";
+        var extra = e.ev === "cta_click" && e.detail ? " – " + esc(e.detail) : "";
+        html += '<div class="ev ' + cls + '"><div class="dot">' + m[1] + '</div><div><div class="tt">' + esc(m[0]) + extra + '</div><div class="tm">' + dt(e.t) + "</div></div></div>";
+      });
+      $("sheet").innerHTML = head + '<div class="tl">' + (html || '<div class="empty">' + esc(x.journey || "Chưa có sự kiện.") + "</div>") + "</div>";
+    });
+  }
+
+  function exportCsv() {
+    var list = filtered();
+    var cols = [["Thời gian", function (x) { return dt(x.t); }], ["Họ và tên", "name"], ["Số điện thoại", "phone"], ["Email", "email"], ["Tên đơn vị", "unit"],
+      ["Trạng thái", "status"], ["Số lần đăng ký", "count"], ["Nguồn", "source"], ["utm_campaign", "uc"], ["utm_content", "ux"], ["utm_term", "ut"],
+      ["Nguồn đầu tiên", "ft"], ["Thiết bị", "dev"], ["Số lượt truy cập", "visits"], ["Hành trình", "journey"]];
+    var q = function (v) { v = String(v == null ? "" : v); return /[",\n]/.test(v) ? '"' + v.replace(/"/g, '""') + '"' : v; };
+    var csv = "\ufeff" + cols.map(function (c) { return q(c[0]); }).join(",") + "\n" +
+      list.map(function (x) { return cols.map(function (c) { return q(typeof c[1] === "function" ? c[1](x) : x[c[1]]); }).join(","); }).join("\n");
+    var a = document.createElement("a");
+    a.href = URL.createObjectURL(new Blob([csv], { type: "text/csv;charset=utf-8" }));
+    a.download = "dang-ky-tap-huan-ai-" + new Date().toISOString().slice(0, 10) + ".csv";
+    document.body.appendChild(a); a.click(); a.remove();
+  }
+
+  $("range").addEventListener("click", function (e) {
+    var b = e.target.closest("button"); if (!b) return;
+    [].forEach.call(this.children, function (x) { x.classList.toggle("on", x === b); });
+    state.range = b.getAttribute("data-r");
+    load();
+  });
+  $("reload").addEventListener("click", load);
+  $("export").addEventListener("click", exportCsv);
+  ["q", "f-source", "f-status"].forEach(function (id) { $(id).addEventListener("input", leadsTable); });
+  document.querySelector(".tabs").addEventListener("click", function (e) {
+    var b = e.target.closest("button"); if (!b) return;
+    state.tab = b.getAttribute("data-tab");
+    [].forEach.call(this.children, function (x) { x.classList.toggle("on", x === b); });
+    ["leads", "dups", "units"].forEach(function (t) { $("tab-" + t).hidden = t !== state.tab; });
+    $("export").style.visibility = state.tab === "leads" ? "visible" : "hidden";
+  });
+  $("leads").addEventListener("click", function (e) { var b = e.target.closest("[data-j]"); if (b) openJourney(Number(b.getAttribute("data-j"))); });
+  $("leads").addEventListener("change", function (e) {
+    var s = e.target.closest("select[data-row]"); if (!s) return;
+    var row = Number(s.getAttribute("data-row")), val = s.value;
+    s.disabled = true;
+    call({ api: "status", row: row, status: val }, function (r) {
+      s.disabled = false;
+      if (!r || !r.ok) { alert((r && r.error) || "Chưa lưu được trạng thái"); return; }
+      state.data.leads.forEach(function (l) { if (l.row === row) l.status = val; });
+    });
+  });
+  $("modal").addEventListener("click", function (e) { if (e.target === this || e.target.closest("[data-close]")) this.classList.remove("open"); });
+  document.addEventListener("keydown", function (e) { if (e.key === "Escape") $("modal").classList.remove("open"); });
+  setInterval(function () { if (!document.hidden) load(); }, 5 * 60 * 1000);
+
+  function demo(p) {
+    if (p.api === "status") return { ok: true };
+    var now = Date.now(), day = 864e5;
+    if (p.api === "journey") {
+      var t0 = now - 3 * day;
+      return { ok: true, events: [
+        { t: t0, sid: "a", ev: "pageview", source: "facebook / cpc", uc: "tap-huan-ai-t10" },
+        { t: t0 + 40e3, sid: "a", ev: "scroll_50", source: "facebook / cpc" },
+        { t: now - 3600e3, sid: "b", ev: "pageview", source: "zalo / referral" },
+        { t: now - 3500e3, sid: "b", ev: "cta_click", detail: "Hero", source: "zalo / referral" },
+        { t: now - 3480e3, sid: "b", ev: "form_start", source: "zalo / referral" },
+        { t: now - 3400e3, sid: "b", ev: "lead", source: "zalo / referral" },
+        { t: now - 3390e3, sid: "b", ev: "zalo_click", source: "zalo / referral" }] };
+    }
+    var srcs = ["facebook / cpc", "zalo / referral", "Truy cập trực tiếp", "google / organic", "email / newsletter"];
+    var units = ["Công đoàn Tổng công ty Điện lực miền Bắc", "Công đoàn Công ty Điện lực Hà Nội", "Công đoàn Truyền tải điện 1", "Công đoàn Công ty Nhiệt điện Phả Lại", "Công đoàn Điện lực Hải Phòng"];
+    var names = ["Nguyễn Văn An", "Trần Thị Bình", "Lê Minh Châu", "Phạm Quốc Dũng", "Hoàng Thu Hà", "Vũ Đức Huy", "Đặng Thị Lan", "Bùi Văn Long"];
+    var leads = [], days = [];
+    for (var i = 0; i < 30; i++) {
+      var v = 40 + Math.round(Math.random() * 90), l = Math.round(v * (.05 + Math.random() * .08));
+      days.push({ day: new Date(now - (29 - i) * day + 7 * 3600e3).toISOString().slice(0, 10), pv: Math.round(v * 1.4), visitors: v, leads: l, dups: Math.round(Math.random() * 2) });
+    }
+    for (var j = 0; j < 42; j++) {
+      leads.push({ row: j + 2, t: now - j * 4.1 * 3600e3, name: names[j % 8], phone: "09" + (12345670 + j * 37), email: j % 3 ? "canbo" + j + "@evn.com.vn" : "",
+        unit: units[j % 5], status: ["Mới", "Đã liên hệ", "Đã vào nhóm Zalo"][j % 3], count: j % 7 === 0 ? 2 : 1, source: srcs[j % 5],
+        uc: j % 5 === 0 ? "tap-huan-ai-t10" : "", dev: j % 3 ? "mobile" : "desktop", vid: "v" + j, visits: 1 + j % 3, ft: srcs[(j + 1) % 5] });
+    }
+    var sum = function (k) { return days.reduce(function (a, d) { return a + d[k]; }, 0); };
+    var vis = sum("visitors"), ld = sum("leads");
+    return { ok: true, generatedAt: now, sheetUrl: "#", statuses: ["Mới", "Đã liên hệ", "Đã vào nhóm Zalo", "Đã tham gia lớp", "Hủy"],
+      kpi: { pageviews: sum("pv"), visitors: vis, sessions: Math.round(vis * 1.15), leads: ld, dups: sum("dups"), ctaVisitors: Math.round(vis * .21), formStarts: Math.round(vis * .12), totalLeadsAll: ld },
+      funnel: [{ step: "Truy cập trang", n: vis }, { step: "Cuộn xem 50% trang", n: Math.round(vis * .55) }, { step: "Bấm nút Đăng ký", n: Math.round(vis * .21) }, { step: "Bắt đầu điền form", n: Math.round(vis * .12) }, { step: "Đăng ký thành công", n: ld }],
+      days: days,
+      sources: [{ key: "facebook / cpc", visitors: 1200, leads: 96 }, { key: "zalo / referral", visitors: 640, leads: 71 }, { key: "Truy cập trực tiếp", visitors: 380, leads: 22 }, { key: "google / organic", visitors: 150, leads: 9 }, { key: "email / newsletter", visitors: 60, leads: 8 }],
+      campaigns: [{ key: "tap-huan-ai-t10", visitors: 900, leads: 80 }, { key: "nhac-lich-buoi-1", visitors: 300, leads: 16 }],
+      devices: [{ key: "mobile", visitors: 1650, leads: 140 }, { key: "desktop", visitors: 720, leads: 62 }, { key: "tablet", visitors: 60, leads: 4 }],
+      ctaPlaces: [{ key: "Hero", n: 320 }, { key: "Nút nổi cuối màn hình", n: 180 }, { key: "Nội dung 3 buổi", n: 90 }, { key: "Kêu gọi cuối trang", n: 60 }],
+      units: units.map(function (u, i) { return { key: u, n: 30 - i * 5 }; }), leads: leads,
+      dups: [{ t: now - 7200e3, name: "Nguyễn Văn An", phone: "0912345670", unit: units[0], row: 2, reason: "Trùng số điện thoại", source: "zalo / referral" }] };
+  }
+
+  load();
+})();
+</script>
+</body>
+</html>
