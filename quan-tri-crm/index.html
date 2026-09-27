@@ -100,12 +100,44 @@
   .loading.on { display: block; }
   .err { background: #fdecec; color: var(--red); border-radius: 12px; padding: 14px 16px; margin-bottom: 16px; font-weight: 600; display: none; }
   .note { font-size: 12px; color: var(--muted); margin-top: 10px; }
+  body.locked .top, body.locked main, body.locked .modal { display: none; }
+  .login { display: none; min-height: 100vh; align-items: center; justify-content: center; padding: 24px 16px;
+    background: radial-gradient(ellipse 70% 50% at 50% 0%, rgba(245, 197, 66, .18), transparent 70%), linear-gradient(160deg, var(--navy-deep), var(--navy) 60%, #123a9c); }
+  body.locked .login { display: flex; }
+  .login-card { width: 100%; max-width: 400px; background: #fff; border-radius: 20px; padding: 32px 28px 28px; box-shadow: 0 30px 80px -24px rgba(0, 0, 0, .55); }
+  .login-card .lock { width: 52px; height: 52px; border-radius: 14px; display: grid; place-items: center; background: linear-gradient(135deg, var(--blue), var(--navy)); color: var(--gold); margin-bottom: 16px; }
+  .login-card .lock svg { width: 26px; height: 26px; }
+  .login-card small { display: block; color: var(--gold-deep); font-weight: 800; letter-spacing: 1.2px; font-size: 11px; text-transform: uppercase; }
+  .login-card h1 { margin: 6px 0 4px; font-size: 24px; font-weight: 800; }
+  .login-card p { margin: 0 0 22px; color: var(--muted); font-size: 13px; line-height: 1.5; }
+  .login-card label { display: block; font-weight: 700; font-size: 13px; margin-bottom: 14px; }
+  .login-card input { display: block; width: 100%; margin-top: 6px; border: 1px solid #d5ddef; border-radius: 11px; padding: 12px 13px; font-size: 15px; background: #fff; color: var(--ink); }
+  .login-card input:focus { outline: none; border-color: var(--blue); box-shadow: 0 0 0 3px rgba(31, 95, 214, .15); }
+  .pw { position: relative; }
+  .pw input { padding-right: 64px; }
+  .pw button { position: absolute; right: 6px; bottom: 6px; border: 0; background: #eef3ff; color: var(--navy); border-radius: 8px; padding: 6px 10px; font-size: 12px; font-weight: 700; cursor: pointer; }
+  .login-err { display: none; background: #fdecec; color: var(--red); border-radius: 10px; padding: 10px 12px; font-size: 13px; font-weight: 600; margin-bottom: 14px; }
+  .login-err.on { display: block; }
+  .login-card .btn { width: 100%; padding: 13px; font-size: 15px; border-radius: 11px; }
+  .login-card .btn:disabled { opacity: .7; cursor: wait; }
   @media (max-width: 1180px) { .kpis { grid-template-columns: repeat(3, 1fr); } .row3 { grid-template-columns: 1fr 1fr; } .row3 > :first-child { grid-column: 1 / -1; } }
   @media (max-width: 860px) { .row2, .row3 { grid-template-columns: 1fr; } .brand h1 { font-size: 17px; } }
   @media (max-width: 560px) { .kpis { grid-template-columns: repeat(2, 1fr); } .kpi .v { font-size: 23px; } .info { grid-template-columns: 1fr; } .wrap { padding: 0 14px; } }
 </style>
 </head>
-<body>
+<body class="locked">
+<div class="login">
+  <form class="login-card" id="login-form">
+    <div class="lock"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round"><rect x="4" y="11" width="16" height="10" rx="2"/><path d="M8 11V7a4 4 0 0 1 8 0v4"/></svg></div>
+    <small>CRM · Trang quản trị</small>
+    <h1>Đăng nhập</h1>
+    <p>Tập huấn AI trong công tác truyền thông số – Công đoàn Điện lực Việt Nam</p>
+    <label>Tài khoản<input name="u" autocomplete="username" autocapitalize="none" spellcheck="false" required></label>
+    <label>Mật khẩu<span class="pw"><input name="p" type="password" autocomplete="current-password" required><button type="button" id="pw-toggle">Hiện</button></span></label>
+    <div class="login-err" id="login-err"></div>
+    <button class="btn" type="submit">Đăng nhập</button>
+  </form>
+</div>
 <div class="loading" id="loading">Đang tải dữ liệu...</div>
 
 <header class="top">
@@ -124,6 +156,7 @@
         </div>
         <button class="tbtn" id="reload">Làm mới</button>
         <a class="tbtn" id="sheet-link" target="_blank" rel="noopener" href="#">Mở Google Sheet</a>
+        <button class="tbtn" id="logout">Đăng xuất</button>
       </div>
     </div>
     <div class="updated" id="updated"></div>
@@ -186,21 +219,21 @@
 
 <script>
 (function () {
-  var API = "https://script.google.com/macros/s/AKfycbxPKc8eFlV-DBLdbW6fSZAGYYEi6YKobQjX5OpHShAw_T2zKZ_S5BGp9U_kUnHPmmRX/exec", KEY = "__KEY__";
+  if (window.top !== window.self) { document.body.innerHTML = ""; return; }
+  var API = "https://script.google.com/macros/s/AKfycbxPKc8eFlV-DBLdbW6fSZAGYYEi6YKobQjX5OpHShAw_T2zKZ_S5BGp9U_kUnHPmmRX/exec";
   var qs = new URLSearchParams(location.search);
   if (API.indexOf("__") === 0) API = qs.get("api") || "";
-  if (KEY.indexOf("__") === 0) KEY = qs.get("key") || "";
-  var DEMO = qs.get("demo") === "1";
-  if (qs.get("key") && history.replaceState) {
+  var DEMO = qs.get("demo") === "1" && /^(file:|http:\/\/(localhost|127\.0\.0\.1))/.test(location.href);
+  if (qs.has("key") && history.replaceState) {
     qs.delete("key");
     history.replaceState(null, "", location.pathname + (qs.toString() ? "?" + qs : "") + location.hash);
   }
-  if (!KEY && !DEMO) {
-    try { KEY = localStorage.getItem("cddl_crm_key") || ""; } catch (e) {}
-    if (!KEY) KEY = (prompt("Nhập mã truy cập CRM:") || "").trim();
-  }
-  if (KEY && !DEMO) { try { localStorage.setItem("cddl_crm_key", KEY); } catch (e) {} }
-  var hasRun = !!(window.google && google.script && google.script.run);
+  var SESS_KEY = "cddl_crm_session", TOKEN = "";
+  try {
+    localStorage.removeItem("cddl_crm_key");
+    var saved = JSON.parse(localStorage.getItem(SESS_KEY) || "null");
+    if (saved && saved.exp > Date.now()) TOKEN = saved.token;
+  } catch (e) {}
 
   var state = { range: "30", data: null, tab: "leads" };
   var $ = function (id) { return document.getElementById(id); };
@@ -212,27 +245,76 @@
   var EV = {
     pageview: ["Truy cập trang đăng ký", "↘"], scroll_50: ["Cuộn xem 50% trang", "½"], scroll_90: ["Cuộn gần hết trang", "↓"],
     cta_click: ["Bấm nút Đăng ký", "☝"], form_start: ["Bắt đầu điền form", "✎"], lead: ["Đăng ký thành công", "✓"],
-    lead_dup: ["Đăng ký lại (trùng)", "!"], thankyou_view: ["Xem trang cảm ơn", "♥"], zalo_click: ["Bấm tham gia nhóm Zalo", "Z"]
+    lead_dup: ["Đăng ký lại (trùng)", "!"], thankyou_view: ["Xem trang cảm ơn", "♥"], zalo_click: ["Bấm tham gia nhóm Zalo", "Z"],
+    fanpage_click: ["Bấm theo dõi fanpage", "f"]
   };
+
+  function showLogin(msg) {
+    TOKEN = "";
+    state.data = null;
+    try { localStorage.removeItem(SESS_KEY); } catch (e) {}
+    $("modal").classList.remove("open");
+    document.body.classList.add("locked");
+    $("login-err").textContent = msg || "";
+    $("login-err").classList.toggle("on", !!msg);
+    var f = $("login-form");
+    f.elements.p.value = "";
+    (f.elements.u.value ? f.elements.p : f.elements.u).focus();
+  }
+
+  function enter() {
+    document.body.classList.remove("locked");
+    load();
+  }
 
   function call(params, done) {
     if (DEMO) return setTimeout(function () { done(demo(params)); }, 150);
-    params.key = KEY;
-    if (hasRun) {
-      google.script.run.withSuccessHandler(done).withFailureHandler(function (e) { done({ ok: false, error: String(e && e.message || e) }); }).api(params);
-      return;
-    }
+    if (!TOKEN) return showLogin();
     if (!API) return done({ ok: false, error: "Thiếu địa chỉ API" });
-    fetch(API + "?" + new URLSearchParams(params)).then(function (r) { return r.json(); }).then(done)
-      .catch(function (e) { done({ ok: false, error: "Không kết nối được máy chủ: " + e.message }); });
+    params.key = TOKEN;
+    fetch(API + "?" + new URLSearchParams(params)).then(function (r) { return r.json(); }).then(function (d) {
+      if (d && d.auth) return showLogin(d.error);
+      done(d);
+    }).catch(function (e) { done({ ok: false, error: "Không kết nối được máy chủ: " + e.message }); });
   }
+
+  $("login-form").addEventListener("submit", function (e) {
+    e.preventDefault();
+    var f = this, btn = f.querySelector('button[type="submit"]');
+    btn.disabled = true; btn.textContent = "Đang đăng nhập...";
+    $("login-err").classList.remove("on");
+    fetch(API, { method: "POST", headers: { "Content-Type": "text/plain;charset=UTF-8" },
+      body: JSON.stringify({ type: "login", u: f.elements.u.value.trim(), p: f.elements.p.value }) })
+      .then(function (r) { return r.json(); })
+      .then(function (d) {
+        if (!d || !d.ok) throw new Error((d && d.error) || "Không đăng nhập được.");
+        TOKEN = d.token;
+        try { localStorage.setItem(SESS_KEY, JSON.stringify({ token: d.token, exp: d.exp })); } catch (x) {}
+        f.elements.p.value = "";
+        enter();
+      })
+      .catch(function (err) {
+        $("login-err").textContent = /fetch|network/i.test(err.message) ? "Không kết nối được máy chủ, vui lòng thử lại." : err.message;
+        $("login-err").classList.add("on");
+        f.elements.p.select();
+      })
+      .then(function () { btn.disabled = false; btn.textContent = "Đăng nhập"; });
+  });
+  $("pw-toggle").addEventListener("click", function () {
+    var p = $("login-form").elements.p, show = p.type === "password";
+    p.type = show ? "text" : "password";
+    this.textContent = show ? "Ẩn" : "Hiện";
+  });
+  $("logout").addEventListener("click", function () {
+    if (TOKEN && API) fetch(API + "?" + new URLSearchParams({ api: "logout", key: TOKEN })).catch(function () {});
+    showLogin();
+  });
 
   function load() {
     $("loading").classList.add("on");
     call({ api: "stats", range: state.range }, function (d) {
       $("loading").classList.remove("on");
       if (!d || !d.ok) {
-        if (d && /Khóa truy cập/.test(d.error || "")) { try { localStorage.removeItem("cddl_crm_key"); } catch (e) {} }
         $("err").style.display = "block"; $("err").textContent = (d && d.error) || "Không tải được dữ liệu"; return;
       }
       $("err").style.display = "none";
@@ -416,7 +498,7 @@
   });
   $("modal").addEventListener("click", function (e) { if (e.target === this || e.target.closest("[data-close]")) this.classList.remove("open"); });
   document.addEventListener("keydown", function (e) { if (e.key === "Escape") $("modal").classList.remove("open"); });
-  setInterval(function () { if (!document.hidden) load(); }, 5 * 60 * 1000);
+  setInterval(function () { if (!document.hidden && (TOKEN || DEMO)) load(); }, 5 * 60 * 1000);
 
   function demo(p) {
     if (p.api === "status") return { ok: true };
@@ -459,7 +541,7 @@
       dups: [{ t: now - 7200e3, name: "Nguyễn Văn An", phone: "0912345670", unit: units[0], row: 2, reason: "Trùng số điện thoại", source: "zalo / referral" }] };
   }
 
-  load();
+  if (TOKEN || DEMO) enter(); else showLogin();
 })();
 </script>
 </body>
