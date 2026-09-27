@@ -186,7 +186,10 @@
   .cddl-lp .hero-cta { display: flex; flex-wrap: wrap; align-items: center; gap: 14px; margin-top: 32px; }
   .cddl-lp .hero-cta .btn { padding: 20px 38px; font-size: 18px; }
 
-  .cddl-lp .hero-photo { position: relative; align-self: end; display: flex; justify-content: center; align-items: flex-end; }
+  .cddl-lp .hero-photo {
+    position: relative; align-self: end; display: flex; justify-content: center; align-items: flex-end;
+    margin-bottom: clamp(24px, 6vh, 64px);
+  }
   .cddl-lp .hero-photo::before {
     content: ""; position: absolute; left: 50%; bottom: 10%; transform: translateX(-50%);
     width: 115%; max-width: 720px; aspect-ratio: 1; border-radius: 50%; pointer-events: none;
@@ -194,8 +197,10 @@
   }
   .cddl-lp .hero .hero-photo img {
     position: relative; width: auto; max-width: 100%;
-    height: clamp(520px, calc(100vh - 110px), 800px); object-fit: contain; object-position: center bottom;
+    height: clamp(440px, calc(100vh - 210px), 640px); object-fit: contain; object-position: center bottom;
     filter: drop-shadow(0 24px 40px rgba(0, 0, 0, .45));
+    -webkit-mask-image: linear-gradient(to bottom, #000 92%, transparent 100%);
+    mask-image: linear-gradient(to bottom, #000 92%, transparent 100%);
   }
 
   /* ===== INTRO + FORM ===== */
@@ -462,7 +467,7 @@
     .cddl-lp .grid-4 { grid-template-columns: repeat(2, 1fr); }
     .cddl-lp .hero { min-height: clamp(600px, 100vh, 820px); }
     .cddl-lp .hero-grid { grid-template-columns: 1.15fr .85fr; }
-    .cddl-lp .hero .hero-photo img { height: clamp(460px, calc(100vh - 120px), 680px); }
+    .cddl-lp .hero .hero-photo img { height: clamp(400px, calc(100vh - 200px), 580px); }
   }
   @media (max-width: 860px) {
     .cddl-lp { font-size: 16px; }
@@ -493,7 +498,8 @@
     .cddl-lp .hero-cta .btn { width: 100%; max-width: 380px; padding: 18px 24px; font-size: 17px; }
     .cddl-lp .hero-cta .btn-ghost { display: none; }
     .cddl-lp .hero { min-height: 0; }
-    .cddl-lp .hero .hero-photo img { width: 100%; max-width: 360px; height: auto; }
+    .cddl-lp .hero-photo { margin-bottom: 0; }
+    .cddl-lp .hero .hero-photo img { width: 100%; max-width: 360px; height: auto; -webkit-mask-image: none; mask-image: none; }
     .cddl-lp .hero-photo::before { width: 420px; max-width: 110%; }
 
     .cddl-lp .intro-grid, .cddl-lp .teacher-grid, .cddl-lp .hl-grid { grid-template-columns: 1fr; gap: 36px; }
