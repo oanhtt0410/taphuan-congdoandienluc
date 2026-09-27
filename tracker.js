@@ -59,7 +59,8 @@
 
   var LABEL = {
     pageview: "Truy cập trang đăng ký", scroll_50: "Cuộn 50% trang", scroll_90: "Cuộn gần hết trang", cta_click: "Bấm Đăng ký",
-    form_start: "Điền form", lead: "Đăng ký thành công", thankyou_view: "Xem trang cảm ơn", zalo_click: "Bấm tham gia Zalo"
+    form_start: "Điền form", lead: "Đăng ký thành công", thankyou_view: "Xem trang cảm ơn", zalo_click: "Bấm tham gia Zalo",
+    fanpage_click: "Bấm theo dõi fanpage"
   };
   function pad(n) { return n < 10 ? "0" + n : n; }
   function remember(ev, detail) {
@@ -123,6 +124,7 @@
     var t = e.target.closest ? e.target : null;
     if (!t) return;
     if (t.closest("[data-zalo]")) { track("zalo_click", pageEv === "pageview" ? "Trang đăng ký" : "Trang cảm ơn"); flush(); return; }
+    if (t.closest("[data-fanpage]")) { track("fanpage_click", pageEv === "pageview" ? "Trang đăng ký" : "Trang cảm ơn"); flush(); return; }
     var a = t.closest('.cddl-lp a[href="#dang-ky"]');
     if (!a) return;
     var place = "Khác";

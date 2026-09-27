@@ -444,6 +444,34 @@
   .cddl-lp .final h2 .ln-w { display: block; }
   @media (max-width: 560px) { .cddl-lp .final h2 .ln { display: block; } }
   .cddl-lp .final p { margin: 16px auto 30px; max-width: 640px; color: #c9d5f5; font-size: 18px; }
+  .cddl-lp .fanpage { padding: 64px 0; background: var(--soft); }
+  .cddl-lp .fb-card {
+    position: relative; overflow: hidden; display: grid; grid-template-columns: auto 1fr auto; align-items: center; gap: 24px;
+    max-width: 1060px; margin: 0 auto; padding: 34px 34px 34px 38px; border-radius: 24px; background: #fff;
+    border: 1px solid var(--line); box-shadow: 0 30px 60px -32px rgba(10, 42, 122, .45);
+  }
+  .cddl-lp .fb-card::before { content: ""; position: absolute; left: 0; top: 0; bottom: 0; width: 6px; background: linear-gradient(180deg, #3b8bff 0%, #1877f2 55%, #0b5fd6 100%); }
+  .cddl-lp .fb-logo {
+    display: grid; place-items: center; width: 84px; height: 84px; border-radius: 50%; color: #fff;
+    background: linear-gradient(145deg, #3b8bff 0%, #1877f2 60%, #0b5fd6 100%);
+    box-shadow: 0 0 0 8px rgba(24, 119, 242, .12), 0 16px 30px -12px rgba(24, 119, 242, .7);
+  }
+  .cddl-lp .fb-logo svg { width: 46px; height: 46px; }
+  .cddl-lp .fb-text .eyebrow { margin-bottom: 6px; color: #1877f2; }
+  .cddl-lp .fb-text h2 { font-size: clamp(22px, 2.5vw, 28px); line-height: 1.3; font-weight: 800; color: var(--navy); }
+  .cddl-lp .fb-text p { margin-top: 8px; color: var(--muted); font-size: 16.5px; }
+  .cddl-lp .fb-perks { display: flex; flex-wrap: wrap; gap: 8px 14px; margin-top: 12px; font-size: 14px; font-weight: 600; color: var(--navy); }
+  .cddl-lp .fb-perks li { display: flex; align-items: center; gap: 6px; }
+  .cddl-lp .fb-perks svg { width: 16px; height: 16px; flex: none; color: #1877f2; }
+  .cddl-lp .btn-fb {
+    display: inline-flex; align-items: center; justify-content: center; gap: 10px; white-space: nowrap;
+    padding: 17px 24px; border-radius: 999px; color: #fff; font-size: 16.5px; font-weight: 800; letter-spacing: .02em;
+    background: linear-gradient(135deg, #3b8bff 0%, #1877f2 60%, #0b5fd6 100%);
+    box-shadow: 0 14px 30px -10px rgba(24, 119, 242, .7), inset 0 1px 0 rgba(255, 255, 255, .35);
+    transition: transform .2s ease, box-shadow .2s ease;
+  }
+  .cddl-lp .btn-fb:hover { transform: translateY(-2px); box-shadow: 0 18px 36px -10px rgba(24, 119, 242, .8), inset 0 1px 0 rgba(255, 255, 255, .35); }
+  .cddl-lp .btn-fb svg { width: 20px; height: 20px; flex: none; }
   .cddl-lp .footer { padding: 44px 0 30px; background: #041036; color: #c9d5f5; text-align: center; }
   .cddl-lp .footer .hero-top { justify-content: center; padding: 0; }
   .cddl-lp .footer h4 { margin: 26px 0 12px; color: #fff; font-size: 18px; }
@@ -523,6 +551,13 @@
     .cddl-lp .zoom-badge span { font-size: 11px; }
     .cddl-lp .faq summary { font-size: 16.5px; padding: 18px 18px; }
     .cddl-lp .faq details p { padding: 0 18px 20px; }
+    .cddl-lp .fanpage { padding: 48px 0; }
+    .cddl-lp .fb-card { grid-template-columns: 1fr; justify-items: center; gap: 16px; padding: 30px 20px 26px; text-align: center; }
+    .cddl-lp .fb-card::before { right: 0; bottom: auto; width: auto; height: 6px; background: linear-gradient(90deg, #3b8bff 0%, #1877f2 55%, #0b5fd6 100%); }
+    .cddl-lp .fb-logo { width: 68px; height: 68px; }
+    .cddl-lp .fb-logo svg { width: 38px; height: 38px; }
+    .cddl-lp .fb-perks { justify-content: center; }
+    .cddl-lp .btn-fb { width: 100%; max-width: 380px; }
     .cddl-lp .sticky-cta { display: block; }
     .cddl-lp .footer { padding-bottom: 100px; }
   }
@@ -534,6 +569,7 @@
     .cddl-lp .brand img { width: 36px; height: 36px; }
     .cddl-lp .brand b { font-size: 11px; letter-spacing: 0; }
     .cddl-lp .tagline b { display: block; }
+    .cddl-lp .fb-text h2 .org { display: block; white-space: normal; }
   }
   @media (prefers-reduced-motion: reduce) {
     .cddl-lp .reveal { opacity: 1; transform: none; transition: none; }
@@ -819,6 +855,26 @@
       <h2><span class="gold"><span class="ln">Ứng dụng</span> <span class="ln">trí tuệ nhân tạo</span></span><span class="ln-w">trong công tác truyền thông số</span></h2>
       <p>3 buổi Zoom chuyên sâu cùng chuyên gia <span class="nb">Trần Khánh Tư</span>. Mỗi cán bộ đăng ký một lượt và ghi rõ tên đơn vị.</p>
       <a class="btn" href="#dang-ky">Đăng ký tham gia <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><path d="M5 12h14M13 6l6 6-6 6"/></svg></a>
+    </div>
+  </section>
+
+  <!-- ===== FANPAGE ===== -->
+  <section class="fanpage">
+    <div class="wrap">
+      <div class="fb-card reveal">
+        <div class="fb-logo"><svg viewBox="0 0 24 24" fill="currentColor" aria-hidden="true"><path d="M13.5 21.5v-8h2.7l.4-3.2h-3.1V8.3c0-.9.3-1.5 1.6-1.5h1.7V4c-.3 0-1.3-.1-2.5-.1-2.4 0-4.1 1.5-4.1 4.2v2.2H7.5v3.2h2.7v8h3.3z"/></svg></div>
+        <div class="fb-text">
+          <span class="eyebrow">Fanpage chính thức</span>
+          <h2>Theo dõi fanpage <span class="org nb"><span class="nb">Công đoàn</span> <span class="nb">Điện lực</span> <span class="nb">Việt Nam</span></span></h2>
+          <p>Để nhận các thông tin hữu ích và không bỏ lỡ những chương trình tiếp theo dành cho cán bộ, đoàn viên toàn ngành.</p>
+          <ul class="fb-perks">
+            <li><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.6" stroke-linecap="round" stroke-linejoin="round"><path d="M20 6 9 17l-5-5"/></svg>Thông báo tập huấn mới</li>
+            <li><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.6" stroke-linecap="round" stroke-linejoin="round"><path d="M20 6 9 17l-5-5"/></svg>Kiến thức truyền thông số</li>
+            <li><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.6" stroke-linecap="round" stroke-linejoin="round"><path d="M20 6 9 17l-5-5"/></svg>Tin hoạt động công đoàn</li>
+          </ul>
+        </div>
+        <a class="btn-fb" href="https://www.facebook.com/ConngdoandienlucVietNam" target="_blank" rel="noopener" data-fanpage><svg viewBox="0 0 24 24" fill="currentColor" aria-hidden="true"><path d="M13.5 21.5v-8h2.7l.4-3.2h-3.1V8.3c0-.9.3-1.5 1.6-1.5h1.7V4c-.3 0-1.3-.1-2.5-.1-2.4 0-4.1 1.5-4.1 4.2v2.2H7.5v3.2h2.7v8h3.3z"/></svg>Theo dõi fanpage</a>
+      </div>
     </div>
   </section>
 
