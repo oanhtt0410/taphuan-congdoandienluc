@@ -155,8 +155,8 @@
         <div class="seg" id="range">
           <button data-r="today">Hôm nay</button>
           <button data-r="7">7 ngày</button>
-          <button data-r="30" class="on">30 ngày</button>
-          <button data-r="all">Tất cả</button>
+          <button data-r="30">30 ngày</button>
+          <button data-r="all" class="on">Tất cả</button>
         </div>
         <button class="tbtn" id="reload">Làm mới</button>
         <a class="tbtn" id="sheet-link" target="_blank" rel="noopener" href="#">Mở Google Sheet</a>
@@ -239,7 +239,7 @@
     if (saved && saved.exp > Date.now()) TOKEN = saved.token;
   } catch (e) {}
 
-  var state = { range: "30", data: null, tab: "leads" };
+  var state = { range: "all", data: null, tab: "leads" };
   var $ = function (id) { return document.getElementById(id); };
   var esc = function (s) { return String(s == null ? "" : s).replace(/[&<>"']/g, function (c) { return { "&": "&amp;", "<": "&lt;", ">": "&gt;", '"': "&quot;", "'": "&#39;" }[c]; }); };
   var fmt = function (n) { return Number(n || 0).toLocaleString("vi-VN"); };
