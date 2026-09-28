@@ -353,6 +353,17 @@
   .cddl-lp .shot.big { grid-row: span 2; }
   .cddl-lp .shot.big .ph { aspect-ratio: auto; height: calc(100% - 52px); min-height: 300px; }
 
+  .cddl-lp .event { margin-bottom: 44px; }
+  .cddl-lp .event-label {
+    display: flex; align-items: center; gap: 14px; margin: 0 0 18px;
+    font-size: 14px; font-weight: 800; letter-spacing: .12em; text-transform: uppercase; color: var(--navy);
+  }
+  .cddl-lp .event-label::before { content: ""; width: 36px; height: 3px; border-radius: 3px; background: var(--gold); flex: none; }
+  .cddl-lp .event-label::after { content: ""; height: 1px; background: var(--line); flex: 1; }
+  .cddl-lp .event-grid { display: grid; grid-template-columns: 1fr 1fr; gap: 22px 18px; }
+  .cddl-lp .shot.wide { grid-column: 1 / -1; }
+  .cddl-lp .shot.wide .ph { aspect-ratio: 2000 / 588; }
+
   .cddl-lp .featured {
     display: grid; grid-template-columns: 1.4fr 1fr; margin-bottom: 36px;
     border-radius: 24px; overflow: hidden; border: 1px solid rgba(245, 197, 66, .55);
@@ -540,7 +551,11 @@
     .cddl-lp .shot.big .ph { height: auto; min-height: 0; aspect-ratio: 16 / 10; }
     .cddl-lp .shot figcaption { font-size: 13.5px; }
     .cddl-lp .featured { grid-template-columns: 1fr; margin-bottom: 26px; }
-    .cddl-lp .featured-ph img { height: auto; aspect-ratio: 1024 / 575; }
+    .cddl-lp .featured-ph img { height: auto; aspect-ratio: 16 / 10; }
+    .cddl-lp .event { margin-bottom: 30px; }
+    .cddl-lp .event-label { font-size: 12.5px; gap: 10px; margin-bottom: 14px; }
+    .cddl-lp .event-label::before { width: 24px; }
+    .cddl-lp .event-grid { grid-template-columns: 1fr; gap: 18px; }
     .cddl-lp .featured-body { padding: 24px 20px 26px; }
     .cddl-lp .teacher-photo { width: 100%; max-width: 300px; margin: 0 auto; padding-top: 22px; }
     .cddl-lp .hl-media { position: static; }
@@ -720,7 +735,7 @@
       </div>
       <article class="featured reveal">
         <figure class="featured-ph">
-          <img loading="lazy" decoding="async" src="/assets/cong-doan-dien-luc-viet-nam-tran-khanh-tu-dao-tao-ai.webp" width="1024" height="575" alt="Công đoàn Điện lực Việt Nam - chuyên gia Trần Khánh Tư đào tạo AI tại Hội nghị tập huấn công tác truyền thông số" title="Công đoàn Điện lực Việt Nam - Trần Khánh Tư đào tạo AI">
+          <img loading="lazy" decoding="async" src="/assets/cong-doan-dien-luc-viet-nam-tran-khanh-tu-hoi-truong-hoc-vien.webp" width="1276" height="956" alt="Công đoàn Điện lực Việt Nam - chuyên gia Trần Khánh Tư đào tạo AI tại Hội nghị tập huấn công tác truyền thông số" title="Công đoàn Điện lực Việt Nam - Trần Khánh Tư đào tạo AI">
           <span class="featured-badge">Công đoàn Điện lực Việt Nam</span>
         </figure>
         <div class="featured-body">
@@ -733,6 +748,15 @@
           </ul>
         </div>
       </article>
+      <div class="event">
+        <p class="event-label reveal">Hình ảnh tại Hội nghị tập huấn công tác truyền thông số</p>
+        <div class="event-grid">
+          <figure class="shot reveal"><div class="ph"><img loading="lazy" decoding="async" src="/assets/cong-doan-dien-luc-viet-nam-tran-khanh-tu-lanh-dao-tang-hoa.webp" width="1400" height="952" alt="Lãnh đạo Công đoàn Điện lực Việt Nam tặng hoa chuyên gia Trần Khánh Tư tại Hội nghị tập huấn công tác truyền thông số"></div><figcaption>Lãnh đạo Công đoàn Điện lực Việt Nam tặng hoa cảm ơn chuyên gia <span class="nb">Trần Khánh Tư</span></figcaption></figure>
+          <figure class="shot reveal"><div class="ph"><img loading="lazy" decoding="async" src="/assets/cong-doan-dien-luc-viet-nam-tran-khanh-tu-ra-mat-giao-dien-moi.webp" width="1400" height="874" alt="Chuyên gia Trần Khánh Tư cùng lãnh đạo Công đoàn Điện lực Việt Nam ra mắt giao diện mới trang thông tin điện tử và fanpage"></div><figcaption>Nghi thức ra mắt giao diện mới trang thông tin điện tử và fanpage <span class="nb">Công đoàn Điện lực Việt Nam</span></figcaption></figure>
+          <figure class="shot wide reveal"><div class="ph"><img loading="lazy" decoding="async" src="/assets/cong-doan-dien-luc-viet-nam-tran-khanh-tu-anh-tap-the-hoi-nghi.webp" width="2000" height="588" alt="Chuyên gia Trần Khánh Tư chụp ảnh lưu niệm cùng cán bộ công đoàn tại Hội nghị tập huấn công tác truyền thông số"></div><figcaption>Chuyên gia <span class="nb">Trần Khánh Tư</span> chụp ảnh lưu niệm cùng cán bộ công đoàn các đơn vị tham dự Hội nghị</figcaption></figure>
+        </div>
+      </div>
+      <p class="event-label reveal">Các chương trình đào tạo khác</p>
       <div class="gallery">
         <figure class="shot big reveal"><div class="ph"><img loading="lazy" src="https://w.ladicdn.com/s1200x800/66d29a5ba9a97c00121268da/quang-tri-tran-khanh-tu-03-20260416111334-vptwg.png" alt="Đào tạo phổ cập AI tại Quảng Trị"></div><figcaption>Chương trình đào tạo phổ cập AI cho hơn 20.000 người tại tỉnh Quảng Trị</figcaption></figure>
         <figure class="shot reveal"><div class="ph"><img loading="lazy" src="https://w.ladicdn.com/s800x600/66d29a5ba9a97c00121268da/chuong-trinh-dao-tao-ai-ha-tinh-tran-khanh-tu-20250905190238-zji_4.png" alt="Đào tạo cho Tỉnh ủy Hà Tĩnh"></div><figcaption>Chương trình đào tạo cho Tỉnh ủy Hà Tĩnh</figcaption></figure>
@@ -793,7 +817,7 @@
           <span class="eyebrow">Điểm nổi bật</span>
           <h2 class="sec-title">Điểm nổi bật của chương trình tập huấn</h2>
         </div>
-        <div class="ph"><img loading="lazy" decoding="async" src="/assets/cong-doan-dien-luc-viet-nam-tran-khanh-tu-dao-tao-ai-hoi-nghi.webp" width="767" height="575" alt="Chuyên gia Trần Khánh Tư đào tạo AI tại Hội nghị tập huấn công tác truyền thông số Công đoàn Điện lực Việt Nam"><span>Nội dung gắn với thực tiễn công tác truyền thông của tổ chức công đoàn ngành Điện.</span></div>
+        <div class="ph"><img loading="lazy" decoding="async" src="/assets/cong-doan-dien-luc-viet-nam-tran-khanh-tu-giang-day-hoi-nghi.webp" width="1276" height="956" alt="Chuyên gia Trần Khánh Tư đào tạo AI tại Hội nghị tập huấn công tác truyền thông số Công đoàn Điện lực Việt Nam"><span>Nội dung gắn với thực tiễn công tác truyền thông của tổ chức công đoàn ngành Điện.</span></div>
         <p class="hl-quote">Ứng dụng AI đúng cách, có trách nhiệm để thông tin công đoàn đến với người lao động kịp thời, chính xác, gần gũi.</p>
         <a class="btn" href="#dang-ky">Đăng ký tham gia</a>
       </div>
