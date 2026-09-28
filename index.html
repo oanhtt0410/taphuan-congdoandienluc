@@ -14,7 +14,7 @@
 <meta property="og:url" content="https://taphuan.congdoandienluc.com/">
 <meta property="og:title" content="Tập huấn chuyên sâu: Ứng dụng trí tuệ nhân tạo trong công tác truyền thông số">
 <meta property="og:description" content="3 buổi Zoom chuyên sâu cùng chuyên gia Trần Khánh Tư dành cho cán bộ công đoàn, cán bộ làm công tác truyền thông các đơn vị trong Công đoàn Điện lực Việt Nam.">
-<meta property="og:image" content="https://taphuan.congdoandienluc.com/assets/og.jpg?v=c1c13239">
+<meta property="og:image" content="https://taphuan.congdoandienluc.com/assets/og.jpg?v=b3e88d81">
 <meta property="og:image:width" content="1200">
 <meta property="og:image:height" content="630">
 <meta property="og:image:alt" content="Tập huấn chuyên sâu: Ứng dụng trí tuệ nhân tạo trong công tác truyền thông số – Công đoàn Điện lực Việt Nam">
@@ -525,9 +525,9 @@
     .cddl-lp .hero-grid { grid-template-columns: 1fr; min-height: 0; gap: 0; }
     .cddl-lp .hero-copy { padding: 26px 0 8px; text-align: center; }
     .cddl-lp .org-pill { font-size: 11px; padding: 7px 14px; }
-    .cddl-lp .kicker { justify-content: center; margin-top: 20px; font-size: 13px; }
-    .cddl-lp .kicker::before { content: ""; width: 40px; height: 1.5px; background: var(--gold); opacity: .7; }
-    .cddl-lp .kicker::after { width: 40px; }
+    .cddl-lp .kicker { justify-content: center; margin-top: 20px; font-size: 13px; white-space: nowrap; }
+    .cddl-lp .kicker::before { content: ""; width: 40px; min-width: 12px; height: 1.5px; background: var(--gold); opacity: .7; }
+    .cddl-lp .kicker::after { width: 40px; min-width: 12px; }
     .cddl-lp .hero h1 { font-size: clamp(28px, 7.8vw, 44px); line-height: 1.12; }
     .cddl-lp .hero h1 .white { font-size: .62em; margin-top: 6px; white-space: normal; }
     .cddl-lp .tagline { font-size: 16px; padding: 11px 16px; margin-top: 20px; }
@@ -588,6 +588,13 @@
   }
   @media (prefers-reduced-motion: reduce) {
     .cddl-lp .reveal { opacity: 1; transform: none; transition: none; }
+  }
+  @media (max-width: 380px) {
+    .cddl-lp .hero-grid { grid-template-columns: minmax(0, 1fr); }
+  }
+  @media (max-width: 340px) {
+    .cddl-lp .hero h1 { font-size: 26px; }
+    .cddl-lp .brand b { white-space: normal; max-width: 130px; }
   }
 </style>
 </head>
@@ -942,6 +949,37 @@
     document.addEventListener("DOMContentLoaded", boot);
     window.addEventListener("load", boot);
     [300, 1200, 2500].forEach(function (ms) { setTimeout(boot, ms); });
+  })();
+</script>
+
+<script>
+  (function () {
+    var SEL = "h1,h2,h3,h4,summary,figcaption,p,li,.session b,.zoom-badge span,.eyebrow,.kicker,.event-label,.org-pill,.btn,.btn-fb";
+    function glueLastWords(el) {
+      var nodes = [], walker = document.createTreeWalker(el, NodeFilter.SHOW_TEXT), n;
+      while ((n = walker.nextNode())) nodes.push(n);
+      var inWord = false;
+      for (var i = nodes.length - 1; i >= 0; i--) {
+        var t = nodes[i].nodeValue;
+        for (var j = t.length - 1; j >= 0; j--) {
+          var space = /\s/.test(t[j]);
+          if (!space) { inWord = true; continue; }
+          if (!inWord) continue;
+          var k = j;
+          while (k > 0 && /\s/.test(t[k - 1])) k--;
+          nodes[i].nodeValue = t.slice(0, k) + "\u00a0" + t.slice(j + 1);
+          for (var p = i - 1; k === 0 && p >= 0; p--) {
+            var v = nodes[p].nodeValue.replace(/\s+$/, "");
+            nodes[p].nodeValue = v;
+            if (v) break;
+          }
+          return;
+        }
+      }
+    }
+    document.querySelectorAll("#cddl-lp").forEach(function (root) {
+      root.querySelectorAll(SEL).forEach(glueLastWords);
+    });
   })();
 </script>
 

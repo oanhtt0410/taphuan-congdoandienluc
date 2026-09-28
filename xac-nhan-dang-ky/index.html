@@ -225,6 +225,10 @@
   @media (prefers-reduced-motion: reduce) {
     .cddl-lp .ok, .cddl-lp .btn-zalo { animation: none; }
   }
+  @media (max-width: 340px) {
+    .cddl-lp .brands { gap: 12px; }
+    .cddl-lp .brand b { white-space: normal; max-width: 140px; }
+  }
 </style>
 </head>
 <body>
@@ -317,6 +321,37 @@
     document.addEventListener("DOMContentLoaded", boot);
     window.addEventListener("load", boot);
     [300, 1200, 2500].forEach(function (ms) { setTimeout(boot, ms); });
+  })();
+</script>
+
+<script>
+  (function () {
+    var SEL = "h1,h2,h3,h4,summary,figcaption,p,li,.session b,.zoom-badge span,.eyebrow,.kicker,.event-label,.org-pill,.btn,.btn-fb";
+    function glueLastWords(el) {
+      var nodes = [], walker = document.createTreeWalker(el, NodeFilter.SHOW_TEXT), n;
+      while ((n = walker.nextNode())) nodes.push(n);
+      var inWord = false;
+      for (var i = nodes.length - 1; i >= 0; i--) {
+        var t = nodes[i].nodeValue;
+        for (var j = t.length - 1; j >= 0; j--) {
+          var space = /\s/.test(t[j]);
+          if (!space) { inWord = true; continue; }
+          if (!inWord) continue;
+          var k = j;
+          while (k > 0 && /\s/.test(t[k - 1])) k--;
+          nodes[i].nodeValue = t.slice(0, k) + "\u00a0" + t.slice(j + 1);
+          for (var p = i - 1; k === 0 && p >= 0; p--) {
+            var v = nodes[p].nodeValue.replace(/\s+$/, "");
+            nodes[p].nodeValue = v;
+            if (v) break;
+          }
+          return;
+        }
+      }
+    }
+    document.querySelectorAll("#cddl-lp").forEach(function (root) {
+      root.querySelectorAll(SEL).forEach(glueLastWords);
+    });
   })();
 </script>
 
